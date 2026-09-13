@@ -10,6 +10,28 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ledCopy) ledCopy.innerHTML = '<strong>Aliek</strong>';
   document.querySelectorAll('.feature-visual span, .feature-card a').forEach(element => element.remove());
 
+  const serviceCards = document.querySelectorAll('.feature-card');
+  if (serviceCards.length >= 3) {
+    const combinedCard = serviceCards[1];
+    const servicesHeading = document.querySelector('#services h2');
+    if (servicesHeading) servicesHeading.textContent = 'Sahnenin iki temel katmanı';
+    combinedCard.querySelector('h3').textContent = 'Ses ve sahne ışıkları';
+    combinedCard.querySelector('p').textContent = 'Konuşma, müzik ve canlı performanslar için güçlü ses; spot, beam ve efekt ışıklarıyla tamamlanan sahne kurulumu.';
+    serviceCards[0].closest('.col-md-4').classList.replace('col-md-4', 'col-md-6');
+    combinedCard.closest('.col-md-4').classList.replace('col-md-4', 'col-md-6');
+    serviceCards[2].closest('.col-md-4').remove();
+  }
+
+  [['feature-led', 'sahne-1.jpg', 'LED ekranli sahne kurulumu'], ['feature-sound', 'sahne-2.jpg', 'Ses ve sahne isiklari kurulumu']].forEach(([cardClass, fileName, altText]) => {
+    const visual = document.querySelector(`.${cardClass} .feature-visual`);
+    if (!visual) return;
+    visual.querySelector('b')?.remove();
+    const image = document.createElement('img');
+    image.src = `/static/images/${fileName}`;
+    image.alt = altText;
+    visual.prepend(image);
+  });
+
   const form = document.querySelector('#reservation-form');
   if (!form) return;
   const fields = ['start_date', 'end_date', 'people_count', 'led_area', 'light_count'].map(id => document.getElementById(id));
