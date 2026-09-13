@@ -1,6 +1,7 @@
 from datetime import date, datetime, timedelta
 from decimal import Decimal, ROUND_HALF_UP
 from functools import wraps
+import os
 import re
 from uuid import uuid4
 
@@ -411,6 +412,17 @@ def server_error(_error):
 
 with app.app_context():
     db.create_all()
+    admin_username = os.environ.get("ADMIN_USERNAME")
+    admin_password = os.environ.get("ADMIN_PASSWORD")
+    admin_email = os.environ.get("ADMIN_EMAIL")
+    if admin_username and admin_password and admin_email:
+        admin = User.query.filter((User.username == admin_username) | (User.email == admin_email.lower())).first()
+        if not admin:
+            admin = User(username=admin_username, email=admin_email.lower(), first_name="Site", last_name="Yöneticisi", phone="0000000000", is_admin=True, is_active=True)
+            db.session.add(admin)
+        admin.set_password(admin_password)
+        admin.is_admin = True
+        admin.is_active = True
     for pricing_key, pricing_amount in DEFAULT_PRICING.items():
         if not PricingSetting.query.filter_by(setting_key=pricing_key).first():
             db.session.add(PricingSetting(setting_key=pricing_key, amount=pricing_amount))
