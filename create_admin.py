@@ -7,9 +7,9 @@ from app import User
 with app.app_context():
     db.create_all()
     print("Yeni admin hesabı oluştur")
-    username = input("Admin kullanıcı adı: ").strip()
-    email = input("Admin e-posta: ").strip().lower()
-    password = getpass("Admin şifre: ")
+    username = input("Admin: ").strip()
+    email = input("newscreaht@gmail.com: ").strip().lower()
+    password = getpass("Admin: ")
 
     if not username or not email or not password:
         raise SystemExit("Tüm alanlar zorunludur.")
