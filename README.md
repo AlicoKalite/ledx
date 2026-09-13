@@ -9,9 +9,16 @@ python -m venv venv
 venv\Scripts\activate
 python -m pip install -r requirements.txt
 python create_admin.py
-python app.py
+python -m waitress --listen=127.0.0.1:5000 app:app
 ```
 
 Tarayıcı: http://127.0.0.1:5000
 
 İlk admin hesabını `create_admin.py` ile oluşturun. Veritabanı ilk çalıştırmada `instance/reservation.db` altında oluşur.
+
+## Linux veya Render kurulumu
+
+```bash
+pip install -r requirements.txt
+gunicorn app:app
+```
