@@ -1,4 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+  document.title = document.title.replace(/rezervia/gi, 'Aliek');
+  document.querySelectorAll('body *').forEach(element => {
+    element.childNodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE) node.textContent = node.textContent.replace(/rezervia/gi, 'Aliek');
+    });
+  });
+
+  const ledCopy = document.querySelector('.led-copy');
+  if (ledCopy) ledCopy.innerHTML = '<strong>Aliek</strong>';
+  document.querySelectorAll('.feature-visual span, .feature-card a').forEach(element => element.remove());
+
   const form = document.querySelector('#reservation-form');
   if (!form) return;
   const fields = ['start_date', 'end_date', 'people_count', 'led_area', 'light_count'].map(id => document.getElementById(id));
